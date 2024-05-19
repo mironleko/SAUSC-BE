@@ -16,11 +16,11 @@ public class ActivityEquipment {
     @Column(name = "id_activity_equipment")
     private Long idActivityEquipment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_activity")
     private Activity activity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_equipment")
     private Equipment equipment;
 

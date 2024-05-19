@@ -33,6 +33,64 @@ paths:
         '500':
           description: Server error
 
+  /api/v1/activity/{activityId}/equipment:
+    post:
+      tags:
+        - activity-equipment
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EquipmentForm'
+      description: Create an equipment.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/activity/{activityId}/equipment/list:
+    get:
+      tags:
+        - activity-equipment
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      description: Get equipment list for activity.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEquipmentDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
   /api/v1/activities:
     post:
       tags:
@@ -116,6 +174,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ActivityDto'
+
+    EquipmentForm:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: integer
+
+    EquipmentDto:
+      type: object
+      properties:
+        idEquipment:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+
+    ListEquipmentDto:
+      type: object
+      properties:
+        equipmentList:
+          type: array
+          items:
+            $ref: '#/components/schemas/EquipmentDto'
+
 
 
 
