@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: SAUSC
+  version: 1.0.0
+  description: SAUSC API
+servers:
+  - url: http://localhost:8080
+
+
+paths:
+  /api/v1/activity:
+    post:
+      tags:
+        - activity
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityForm'
+      description: Create an activity.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/activities:
+    post:
+      tags:
+        - activity
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivitySearchRequestDto'
+      description: Search activities.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListActivitySearchResponseDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    ActivityForm:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        pricePerHour:
+          type: number
+          format: double
+        idUser:
+          type: integer
+          format: int64
+
+    ActivityDto:
+      type: object
+      properties:
+        idActivity:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        pricePerHour:
+          type: number
+          format: double
+        userInfo:
+          $ref: '#/components/schemas/UserInfoDto'
+
+    UserInfoDto:
+      type: object
+      properties:
+        idUser:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+
+    ActivitySearchRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+
+    ListActivitySearchResponseDto:
+      type: object
+      properties:
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityDto'
+
+
+
