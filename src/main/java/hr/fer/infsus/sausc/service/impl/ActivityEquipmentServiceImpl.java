@@ -36,15 +36,15 @@ public class ActivityEquipmentServiceImpl implements ActivityEquipmentService {
                 .orElseThrow(() -> new EntityNotFoundException("Activity with ID: " + activityId + " not found"));
 
         Equipment equipment = equipmentRepository.save(equipmentMapper.toEntity(equipmentForm));
-        activityEquipmentRepository.save(activityEquipmentMapper.toEntity(activityId,equipment.getIdEquipment(),equipmentForm.getQuantity()));
+        ActivityEquipment activityEquipment = activityEquipmentRepository.save(activityEquipmentMapper.toEntity(activityId,equipment.getIdEquipment(),equipmentForm.getQuantity()));
 
-        return equipmentMapper.toDto(equipment);
+        return equipmentMapper.toDto(equipment,activityEquipment.getQuantity());
     }
 
     @Override
     public List<EquipmentDto> getActivityEquipment(Long activityId) {
 
-        List<Equipment> equipmentList = activityEquipmentRepository.search(activityId);
+        List<ActivityEquipmentRepository.EquipmentQuantity> equipmentList = activityEquipmentRepository.search(activityId);
         return equipmentList.stream().map(equipmentMapper::toDto).toList();
     }
 }

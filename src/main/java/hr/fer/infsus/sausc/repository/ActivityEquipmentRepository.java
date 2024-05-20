@@ -12,10 +12,20 @@ import java.util.List;
 @Repository
 public interface ActivityEquipmentRepository extends JpaRepository<ActivityEquipment, Long> {
     @Query(value = """ 
-            SELECT e
+            SELECT e.idEquipment AS idEquipment,
+                   e.name AS name,
+                   e.description AS description,
+                   ae.quantity AS quantity
             FROM ActivityEquipment ae
             JOIN ae.activity a
             JOIN ae.equipment e
             WHERE a.idActivity = :activityId""")
-    List<Equipment> search(@Param("activityId") Long activityId);
+    List<EquipmentQuantity> search(@Param("activityId") Long activityId);
+
+    interface EquipmentQuantity {
+        Long getIdEquipment();
+        String getName();
+        String getDescription();
+        Long getQuantity();
+    }
 }
