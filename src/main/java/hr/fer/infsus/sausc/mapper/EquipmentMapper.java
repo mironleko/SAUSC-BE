@@ -8,6 +8,7 @@ import hr.fer.infsus.sausc.rest.model.EquipmentForm;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public abstract class EquipmentMapper {
@@ -24,4 +25,6 @@ public abstract class EquipmentMapper {
     public abstract EquipmentDto toDto(final Equipment equipment,final Integer quantity);
 
     public abstract EquipmentDto toDto(final ActivityEquipmentRepository.EquipmentQuantity equipmentQuantity);
+
+    public abstract void toEquipment(@MappingTarget Equipment equipment, EquipmentForm equipmentForm);
 }

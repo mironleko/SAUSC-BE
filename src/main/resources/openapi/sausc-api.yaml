@@ -33,6 +33,86 @@ paths:
         '500':
           description: Server error
 
+  /api/v1/activity/{activityId}:
+    get:
+      tags:
+        - activity
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      description: Get activity.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+    put:
+      tags:
+        - activity
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityForm'
+      description: Update activity.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+    delete:
+      tags:
+        - activity
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      description: Delete activity.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
   /api/v1/activity/{activityId}/equipment:
     post:
       tags:
@@ -58,6 +138,104 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EquipmentDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/activity/{activityId}/equipment/{equipmentId}:
+    get:
+      tags:
+        - activity-equipment
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      description: Update an equipment.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+    put:
+      tags:
+        - activity-equipment
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EquipmentForm'
+      description: Update an equipment.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+    delete:
+      tags:
+        - activity-equipment
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      description: Delete equipment.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
         '400':
           description: Bad request
         '404':

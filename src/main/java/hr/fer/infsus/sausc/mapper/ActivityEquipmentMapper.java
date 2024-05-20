@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {ActivityMapper.class, EquipmentMapper.class})
 public abstract class ActivityEquipmentMapper {
@@ -20,4 +21,9 @@ public abstract class ActivityEquipmentMapper {
     @Mapping(source = "activityId",target = "activity")
     @Mapping(source = "equipmentId",target = "equipment")
     public abstract ActivityEquipment toEntity(Long activityId,Long equipmentId,int quantity);
+
+    @Mapping(source = "activityId",target = "activity")
+    @Mapping(source = "equipmentId",target = "equipment")
+    public abstract void toActivityEquipment(@MappingTarget ActivityEquipment activityEquipment, Long activityId, Long equipmentId, Integer quantity);
+
 }

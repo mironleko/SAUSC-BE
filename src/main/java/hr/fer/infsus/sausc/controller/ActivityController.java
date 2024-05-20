@@ -26,6 +26,22 @@ public class ActivityController implements ActivityApi {
     }
 
     @Override
+    public ResponseEntity<String> apiV1ActivityActivityIdDelete(Long activityId) {
+        activityService.deleteActivity(activityId);
+        return ResponseEntity.ok("Activity with id: " + activityId + " deleted successfully.");
+    }
+
+    @Override
+    public ResponseEntity<ActivityDto> apiV1ActivityActivityIdGet(Long activityId) {
+        return ResponseEntity.ok(activityService.getActivity(activityId));
+    }
+
+    @Override
+    public ResponseEntity<ActivityDto> apiV1ActivityActivityIdPut(Long activityId, ActivityForm activityForm) {
+        return ResponseEntity.ok(activityService.updateActivity(activityId,activityForm));
+    }
+
+    @Override
     public ResponseEntity<ActivityDto> apiV1ActivityPost(ActivityForm activityForm) {
         return ResponseEntity.ok(activityService.addActivity(activityForm));
     }

@@ -8,6 +8,7 @@ import hr.fer.infsus.sausc.rest.model.ActivityForm;
 import hr.fer.infsus.sausc.rest.model.ActivitySearchRequestDto;
 import hr.fer.infsus.sausc.rest.model.ListActivitySearchResponseDto;
 import hr.fer.infsus.sausc.service.ActivityService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,31 @@ public class ActivityServiceImpl implements ActivityService {
         List<Activity> activities = activityRepository
                 .search(activitySearchRequestDto.getName());
         return activities.stream().map(activityMapper::toDto).toList();
+    }
+
+    @Override
+    public ActivityDto getActivity(Long activityId) {
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new EntityNotFoundException("Activity with ID: " + activityId + " not found"));
+
+        return activityMapper.toDto(activity);
+    }
+
+    @Override
+    public ActivityDto updateActivity(Long activityId, ActivityForm activityForm) {
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new EntityNotFoundException("Activity with ID: " + activityId + " not found"));
+
+        activityMapper.toActivity(activity, activityForm);
+        activityRepository.save(activity);
+
+        return getActivity(activityId);
+    }
+
+    @Override
+    public void deleteActivity(Long activityId) {
+        activityRepository.findById(activityId)
+                .orElseThrow(() -> new EntityNotFoundException("Activity with ID: " + activityId + " not found"));
+        activityRepository.deleteById(activityId);
     }
 }

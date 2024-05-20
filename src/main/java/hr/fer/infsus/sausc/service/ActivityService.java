@@ -12,4 +12,10 @@ public interface ActivityService {
     ActivityDto addActivity(ActivityForm activityForm);
 
     List<ActivityDto> searchActivities(ActivitySearchRequestDto activitySearchRequestDto);
+
+    ActivityDto getActivity(Long activityId);
+
+    ActivityDto updateActivity(Long activityId, ActivityForm activityForm);
+
+    void deleteActivity(Long activityId);
 }

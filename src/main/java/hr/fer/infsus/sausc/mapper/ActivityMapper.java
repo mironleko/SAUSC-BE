@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring",uses = {AdministratorMapper.class})
 public abstract class ActivityMapper {
@@ -24,5 +25,8 @@ public abstract class ActivityMapper {
 
     @Mapping(source = "administrator",target = "userInfo",qualifiedByName = "userInfoMapper")
     public abstract ActivityDto toDto(final Activity activity);
+
+    @Mapping(source = "idUser",target = "administrator")
+    public abstract void toActivity(@MappingTarget Activity activity, ActivityForm activityForm);
 
 }

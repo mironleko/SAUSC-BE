@@ -26,4 +26,6 @@ public class ActivityEquipment {
 
     @Column(name = "quantity")
     private Integer quantity;
+
+
 }
