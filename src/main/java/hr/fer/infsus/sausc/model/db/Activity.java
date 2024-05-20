@@ -31,7 +31,7 @@ public class Activity {
     @JoinColumn(name = "id_user")
     private Administrator administrator;
 
-    @OneToMany(mappedBy = "activity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "activity",fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ActivityEquipment> activityEquipments;
 
 }

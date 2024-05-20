@@ -11,6 +11,7 @@ import hr.fer.infsus.sausc.service.ActivityService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class ActivityServiceImpl implements ActivityService {
 
         return getActivity(activityId);
     }
-
+    @Transactional
     @Override
     public void deleteActivity(Long activityId) {
         activityRepository.findById(activityId)
