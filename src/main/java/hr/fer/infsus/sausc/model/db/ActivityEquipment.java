@@ -2,6 +2,8 @@ package hr.fer.infsus.sausc.model.db;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
@@ -18,6 +20,7 @@ public class ActivityEquipment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_activity")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Activity activity;
 
     @ManyToOne(fetch = FetchType.LAZY)
