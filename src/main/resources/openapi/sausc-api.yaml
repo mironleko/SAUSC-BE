@@ -660,6 +660,9 @@ components:
     ReservationDto:
       type: object
       properties:
+        idReservation:
+          type: integer
+          format: int64
         startTime:
           type: string
           format: date-time
