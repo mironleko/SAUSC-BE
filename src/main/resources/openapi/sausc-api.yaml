@@ -294,6 +294,157 @@ paths:
         '500':
           description: Server error
 
+  /api/v1/reservation:
+    post:
+      tags:
+        - reservation
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationForm'
+      description: Create reservation.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/status:
+    post:
+      tags:
+        - status
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatusForm'
+      description: Create new status.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/status/{statusId}:
+    get:
+      tags:
+        - status
+      parameters:
+        - name: statusId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      description: Get status by statusId.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+    put:
+      tags:
+        - status
+      parameters:
+        - name: statusId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatusForm'
+      description: Update status.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+    delete:
+      tags:
+        - status
+      parameters:
+        - name: statusId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      description: Delete status.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/statuses:
+    get:
+      tags:
+        - status
+      description: Get all statuses.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListStatusDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
 components:
   schemas:
     ActivityForm:
@@ -383,6 +534,78 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EquipmentDto'
+
+    ReservationForm:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        numberOfParticipants:
+          type: integer
+        reservationPrice:
+          type: number
+          format: double
+        sportsCenterMemberId:
+          type: integer
+          format: int64
+        activityId:
+          type: integer
+          format: int64
+        statusId:
+          type: integer
+          format: int64
+
+    ReservationDto:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        numberOfParticipants:
+          type: integer
+        reservationPrice:
+          type: number
+          format: double
+        sportsCenterMember:
+          $ref: '#/components/schemas/UserInfoDto'
+        activity:
+          $ref: '#/components/schemas/ActivityDto'
+        status:
+          $ref: '#/components/schemas/StatusDto'
+
+    StatusDto:
+     type: object
+     properties:
+       idStatus:
+         type: integer
+         format: int64
+       name:
+         type: string
+       abbreviation:
+         type: string
+
+    StatusForm:
+      type: object
+      properties:
+        name:
+          type: string
+        abbreviation:
+          type: string
+
+    ListStatusDto:
+      type: object
+      properties:
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatusDto'
 
 
 

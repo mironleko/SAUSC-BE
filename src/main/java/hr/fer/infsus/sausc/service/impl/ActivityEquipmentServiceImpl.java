@@ -58,6 +58,7 @@ public class ActivityEquipmentServiceImpl implements ActivityEquipmentService {
         return equipmentMapper.toDto(equipmentQuantity);
     }
 
+    @Transactional
     @Override
     public EquipmentDto updateActivityEquipment(Long activityId, Long equipmentId, EquipmentForm equipmentForm) {
 
@@ -80,6 +81,7 @@ public class ActivityEquipmentServiceImpl implements ActivityEquipmentService {
         return getActivityEquipment(activityId,equipmentId);
     }
 
+    @Transactional
     @Override
     public void deleteActivityEquipment(Long activityId, Long equipmentId) {
         activityRepository.findById(activityId)

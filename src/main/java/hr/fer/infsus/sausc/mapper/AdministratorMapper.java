@@ -19,6 +19,6 @@ public abstract class AdministratorMapper {
         return entityManager.getReference(Administrator.class, administratorId);
     }
 
-    @Named("userInfoMapper")
+    @Named("userInfoAdministratorMapper")
     public abstract UserInfoDto toUserInfoDto(Administrator administrator);
 }

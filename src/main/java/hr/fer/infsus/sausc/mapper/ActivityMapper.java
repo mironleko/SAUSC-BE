@@ -23,7 +23,7 @@ public abstract class ActivityMapper {
     @Mapping(source = "idUser",target = "administrator")
     public abstract Activity toEntity(final ActivityForm activityForm);
 
-    @Mapping(source = "administrator",target = "userInfo",qualifiedByName = "userInfoMapper")
+    @Mapping(source = "administrator",target = "userInfo",qualifiedByName = "userInfoAdministratorMapper")
     public abstract ActivityDto toDto(final Activity activity);
 
     @Mapping(source = "idUser",target = "administrator")

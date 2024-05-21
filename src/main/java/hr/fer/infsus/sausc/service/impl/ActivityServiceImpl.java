@@ -22,6 +22,7 @@ public class ActivityServiceImpl implements ActivityService {
     private final ActivityRepository activityRepository;
     private final ActivityMapper activityMapper;
 
+    @Transactional
     @Override
     public ActivityDto addActivity(ActivityForm activityForm) {
         return activityMapper.toDto(activityRepository.save(activityMapper.toEntity(activityForm)));
@@ -42,6 +43,7 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.toDto(activity);
     }
 
+    @Transactional
     @Override
     public ActivityDto updateActivity(Long activityId, ActivityForm activityForm) {
         Activity activity = activityRepository.findById(activityId)
@@ -52,6 +54,7 @@ public class ActivityServiceImpl implements ActivityService {
 
         return getActivity(activityId);
     }
+
     @Transactional
     @Override
     public void deleteActivity(Long activityId) {
