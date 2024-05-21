@@ -319,6 +319,107 @@ paths:
         '500':
           description: Server error
 
+  /api/v1/reservation/available-start-times:
+    post:
+      tags:
+        - reservation
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationAvailableStartTimesRequestDto'
+      description: Get possible reservation start times.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationAvailableTimesResponseDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/reservation/available-end-times:
+    post:
+      tags:
+        - reservation
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationAvailableEndTimesRequestDto'
+      description: Get possible reservation end times.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationAvailableTimesResponseDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/reservations/{userId}:
+    get:
+      tags:
+        - reservation
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      description: Get all reservations for user.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListReservationDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
+  /api/v1/reservations:
+    post:
+      tags:
+        - reservation
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationsRequestDto'
+      description: Get reservations.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListReservationDto'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+        '500':
+          description: Server error
+
   /api/v1/status:
     post:
       tags:
@@ -546,13 +647,10 @@ components:
           format: date-time
         numberOfParticipants:
           type: integer
-        reservationPrice:
-          type: number
-          format: double
         sportsCenterMemberId:
           type: integer
           format: int64
-        activityId:
+        idActivity:
           type: integer
           format: int64
         statusId:
@@ -606,6 +704,57 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/StatusDto'
+
+    ListReservationDto:
+      type: object
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationDto'
+
+    ReservationsRequestDto:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+
+    ReservationAvailableStartTimesRequestDto:
+      type: object
+      properties:
+        idActivity:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date
+
+    ReservationAvailableTimesResponseDto:
+      type: object
+      properties:
+        possibleTimes:
+          type: array
+          items:
+            type: string
+            format: time
+
+    ReservationAvailableEndTimesRequestDto:
+      type: object
+      properties:
+        idActivity:
+          type: integer
+          format: int64
+        startDate:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: time
+
 
 
 

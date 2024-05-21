@@ -20,10 +20,10 @@ public abstract class ReservationMapper {
         return entityManager.getReference(Reservation.class, reservationId);
     }
 
-    @Mapping(source = "sportsCenterMemberId",target = "sportsCenterMember")
-    @Mapping(source = "activityId",target = "activity")
-    @Mapping(source = "statusId",target = "status")
-    public abstract Reservation toEntity(final ReservationForm reservationForm);
+    @Mapping(source = "reservationForm.sportsCenterMemberId",target = "sportsCenterMember")
+    @Mapping(source = "reservationForm.idActivity",target = "activity")
+    @Mapping(source = "reservationForm.statusId",target = "status")
+    public abstract Reservation toEntity(final ReservationForm reservationForm,double reservationPrice);
 
     @Mapping(source = "sportsCenterMember",target = "sportsCenterMember",qualifiedByName = "userInfoSportsCenterMemberMapper")
     public abstract ReservationDto toDto(Reservation reservation);
