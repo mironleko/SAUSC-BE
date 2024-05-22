@@ -8,6 +8,7 @@ import hr.fer.infsus.sausc.repository.ReservationRepository;
 import hr.fer.infsus.sausc.rest.model.*;
 import hr.fer.infsus.sausc.service.ActivityService;
 import hr.fer.infsus.sausc.service.ReservationService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         double reservationPrice = durationInHours * activity.getPricePerHour();
 
-        return reservationMapper.toDto(reservationRepository.save(reservationMapper.toEntity(reservationForm,reservationPrice)));
+        return reservationMapper.toDto(reservationRepository.save(reservationMapper.toEntity(reservationForm, reservationPrice)));
     }
 
     @Override
@@ -52,8 +53,13 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationDto> getReservationsFromInterval(ReservationsRequestDto reservationsRequestDto) {
 
+        LocalDateTime startDateTime = LocalDateTime.of(reservationsRequestDto.getStartDate(), SAUSCConstants.START_TIME);
+
+        LocalDateTime endDateTime = LocalDateTime.of(reservationsRequestDto.getStartDate(), SAUSCConstants.END_TIME);
+
         List<Reservation> reservations = reservationRepository
-                .findReservationsInInterval(reservationsRequestDto.getStartTime(),reservationsRequestDto.getEndTime());
+                .findReservationsInInterval(startDateTime, endDateTime);
+
         return reservations.stream().map(reservationMapper::toDto).toList();
     }
 
@@ -69,9 +75,21 @@ public class ReservationServiceImpl implements ReservationService {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime parsedStartTime = LocalTime.parse(request.getStartTime(), timeFormatter);
         LocalDateTime startDateTime = LocalDateTime.of(request.getStartDate(), parsedStartTime);
-        List<String> availableEndTimes = generateEndTimes(request.getIdActivity(),startDateTime);
+        List<String> availableEndTimes = generateEndTimes(request.getIdActivity(), startDateTime);
 
         return availableEndTimes;
+    }
+
+    @Override
+    public ReservationDto updateReservationStatus(Long reservationId, ChangeReservationStatusRequestDto request) {
+
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new EntityNotFoundException("Reservation with ID: " + reservationId + " not found"));
+
+        reservationMapper.changeReservationStatus(reservation, request);
+        reservationRepository.save(reservation);
+
+        return reservationMapper.toDto(reservation);
     }
 
     private List<String> generateEndTimes(Long activityId, LocalDateTime startDateTime) {

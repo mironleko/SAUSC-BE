@@ -15,4 +15,6 @@ public interface ReservationService {
     List<String> getAvailableStartTimes(ReservationAvailableStartTimesRequestDto reservationAvailableStartTimesRequestDto);
 
     List<String> getAvailableEndTimes(ReservationAvailableEndTimesRequestDto reservationAvailableEndTimesRequestDto);
+
+    ReservationDto updateReservationStatus(Long reservationId, ChangeReservationStatusRequestDto changeReservationStatusRequestDto);
 }

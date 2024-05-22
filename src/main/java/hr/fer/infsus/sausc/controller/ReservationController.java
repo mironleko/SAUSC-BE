@@ -34,6 +34,11 @@ public class ReservationController implements ReservationApi {
     }
 
     @Override
+    public ResponseEntity<ReservationDto> apiV1ReservationReservationIdStatusPut(Long reservationId, ChangeReservationStatusRequestDto changeReservationStatusRequestDto) {
+        return ResponseEntity.ok(reservationService.updateReservationStatus(reservationId,changeReservationStatusRequestDto));
+    }
+
+    @Override
     public ResponseEntity<ListReservationDto> apiV1ReservationsPost(ReservationsRequestDto reservationsRequestDto) {
         List<ReservationDto> reservations = reservationService.getReservationsFromInterval(reservationsRequestDto);
 
