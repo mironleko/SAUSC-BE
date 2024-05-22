@@ -2,7 +2,6 @@ package hr.fer.infsus.sausc.service.impl;
 
 import hr.fer.infsus.sausc.constants.SAUSCConstants;
 import hr.fer.infsus.sausc.mapper.ReservationMapper;
-import hr.fer.infsus.sausc.model.db.Activity;
 import hr.fer.infsus.sausc.model.db.Reservation;
 import hr.fer.infsus.sausc.repository.ReservationRepository;
 import hr.fer.infsus.sausc.rest.model.*;
@@ -35,13 +34,33 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationDto createReservation(ReservationForm reservationForm) {
         ActivityDto activity = activityService.getActivity(reservationForm.getIdActivity());
-        // Calculate the duration in hours
+
+        // Validate the reservation to check for overlaps
+        validateReservation(reservationForm);
+        
+        // Calculate reservation price
+        double reservationPrice = calculateReservationPrice(reservationForm, activity);
+
+        return reservationMapper.toDto(reservationRepository.save(reservationMapper.toEntity(reservationForm, reservationPrice)));
+    }
+
+    private void validateReservation(ReservationForm reservationForm) {
+        List<Reservation> overlappingReservations = reservationRepository.findByActivity_IdActivityAndDateRange(
+                reservationForm.getIdActivity(),
+                reservationForm.getStartTime(),
+                reservationForm.getEndTime()
+        );
+
+        if (!overlappingReservations.isEmpty()) {
+            throw new IllegalArgumentException("The reservation time overlaps with an existing reservation.");
+        }
+    }
+
+    private static double calculateReservationPrice(ReservationForm reservationForm, ActivityDto activity) {
         Duration duration = Duration.between(reservationForm.getStartTime(), reservationForm.getEndTime());
         double durationInHours = duration.toMinutes() / 60.0;
 
-        double reservationPrice = durationInHours * activity.getPricePerHour();
-
-        return reservationMapper.toDto(reservationRepository.save(reservationMapper.toEntity(reservationForm, reservationPrice)));
+        return durationInHours * activity.getPricePerHour();
     }
 
     @Override
@@ -55,7 +74,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         LocalDateTime startDateTime = LocalDateTime.of(reservationsRequestDto.getStartDate(), SAUSCConstants.START_TIME);
 
-        LocalDateTime endDateTime = LocalDateTime.of(reservationsRequestDto.getStartDate(), SAUSCConstants.END_TIME);
+        LocalDateTime endDateTime = LocalDateTime.of(reservationsRequestDto.getEndDate(), SAUSCConstants.END_TIME);
 
         List<Reservation> reservations = reservationRepository
                 .findReservationsInInterval(startDateTime, endDateTime);

@@ -17,7 +17,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             SELECT r
             FROM Reservation r
             JOIN FETCH r.status s
-            WHERE r.startTime >= :startTime AND r.endTime <= :endTime AND s.idStatus != 3
+            WHERE r.startTime >= :startTime 
+            AND r.endTime <= :endTime AND s.idStatus != 3
             """)
     List<Reservation> findReservationsInInterval(
             @Param("startTime") LocalDateTime startTime,
@@ -45,4 +46,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                AND r.endTime > :startTime 
                AND s.idStatus != 3 """)
     List<Reservation> findByActivity_IdActivityAndDateRange(@Param("idActivity") Long idActivity, @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
+
 }
