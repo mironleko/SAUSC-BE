@@ -1,6 +1,7 @@
 package hr.fer.infsus.sausc.service.impl;
 
 import hr.fer.infsus.sausc.constants.SAUSCConstants;
+import hr.fer.infsus.sausc.exception.ReservationOverlapException;
 import hr.fer.infsus.sausc.mapper.ReservationMapper;
 import hr.fer.infsus.sausc.model.db.Reservation;
 import hr.fer.infsus.sausc.repository.ReservationRepository;
@@ -52,7 +53,7 @@ public class ReservationServiceImpl implements ReservationService {
         );
 
         if (!overlappingReservations.isEmpty()) {
-            throw new IllegalArgumentException("The reservation time overlaps with an existing reservation.");
+            throw new ReservationOverlapException("The reservation time overlaps with an existing reservation.");
         }
     }
 

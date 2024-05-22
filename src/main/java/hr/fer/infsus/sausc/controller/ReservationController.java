@@ -33,22 +33,23 @@ public class ReservationController implements ReservationApi {
         return ResponseEntity.ok(reservationService.createReservation(reservationForm));
     }
 
-    @Override
-    public ResponseEntity<ReservationDto> apiV1ReservationReservationIdStatusPut(Long reservationId, ChangeReservationStatusRequestDto changeReservationStatusRequestDto) {
-        return ResponseEntity.ok(reservationService.updateReservationStatus(reservationId,changeReservationStatusRequestDto));
-    }
 
     @Override
-    public ResponseEntity<ListReservationDto> apiV1ReservationsPost(ReservationsRequestDto reservationsRequestDto) {
-        List<ReservationDto> reservations = reservationService.getReservationsFromInterval(reservationsRequestDto);
+public ResponseEntity<ReservationDto> apiV1ReservationReservationIdStatusPut(Long reservationId, ChangeReservationStatusRequestDto changeReservationStatusRequestDto) {
+    return ResponseEntity.ok(reservationService.updateReservationStatus(reservationId, changeReservationStatusRequestDto));
+}
 
-        return ResponseEntity.ok(new ListReservationDto().reservations(reservations));
-    }
+@Override
+public ResponseEntity<ListReservationDto> apiV1ReservationsPost(ReservationsRequestDto reservationsRequestDto) {
+    List<ReservationDto> reservations = reservationService.getReservationsFromInterval(reservationsRequestDto);
 
-    @Override
-    public ResponseEntity<ListReservationDto> apiV1ReservationsUserIdGet(Long userId) {
-        List<ReservationDto> reservations = reservationService.getReservationsForUser(userId);
+    return ResponseEntity.ok(new ListReservationDto().reservations(reservations));
+}
 
-        return ResponseEntity.ok(new ListReservationDto().reservations(reservations));
-    }
+@Override
+public ResponseEntity<ListReservationDto> apiV1ReservationsUserIdGet(Long userId) {
+    List<ReservationDto> reservations = reservationService.getReservationsForUser(userId);
+
+    return ResponseEntity.ok(new ListReservationDto().reservations(reservations));
+}
 }
