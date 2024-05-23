@@ -36,10 +36,8 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDto createReservation(ReservationForm reservationForm) {
         ActivityDto activity = activityService.getActivity(reservationForm.getIdActivity());
 
-        // Validate the reservation to check for overlaps
         validateReservation(reservationForm);
         
-        // Calculate reservation price
         double reservationPrice = calculateReservationPrice(reservationForm, activity);
 
         return reservationMapper.toDto(reservationRepository.save(reservationMapper.toEntity(reservationForm, reservationPrice)));
