@@ -2,6 +2,8 @@ package hr.fer.infsus.sausc.model.db;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -37,6 +39,7 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "activity_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Activity activity;
 
     @ManyToOne
