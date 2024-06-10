@@ -19,7 +19,6 @@ public abstract class ActivityMapper {
         if (activityId == null) return null;
         return entityManager.getReference(Activity.class, activityId);
     }
-
     @Mapping(source = "idUser",target = "administrator")
     public abstract Activity toEntity(final ActivityForm activityForm);
 
